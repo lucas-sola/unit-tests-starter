@@ -32,7 +32,7 @@ describe("raiz", () => {
 
 describe("subtrai", () => {
   test("Numero negativo quando subtracao for negativa", () => {
-    expect(subtrai(1, 6)).toBe(-5);
+    expect(subtrai(-1, 6)).toBe(-7);
   });
   test("Resultado correto da subtracao", () => {
     expect(subtrai(5, 1)).toBe(4);

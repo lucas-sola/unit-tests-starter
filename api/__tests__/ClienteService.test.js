@@ -37,24 +37,97 @@ describe("ClienteService (unitario com mocks)", () => {
   });
 
   describe("buscarPorId", () => {
-    test.todo("repassa o id ao repository e retorna o cliente encontrado");
-    test.todo("lanca erro 'Cliente nao encontrado' quando o repository retorna null");
+    test("repassa o id ao repository e retorna o cliente encontrado", () => {
+      const cliente = { id: 7, nome: "Ana Souza", email: "ana@email.com" };
+      mockRepository.findById.mockReturnValue(cliente);
+
+      const resultado = service.buscarPorId(7);
+
+      expect(mockRepository.findById).toHaveBeenCalledWith(7);
+      expect(resultado).toEqual(cliente);
+    });
+
+    test("lanca erro 'Cliente nao encontrado' quando o repository retorna null", () => {
+      mockRepository.findById.mockReturnValue(null);
+
+      expect(() => service.buscarPorId(99)).toThrow("Cliente nao encontrado");
+    });
   });
 
   describe("criar", () => {
-    test.todo("repassa os dados ao repository e retorna o cliente criado");
-    test.todo("propaga o erro quando nome ou email estiverem faltando");
-    test.todo("propaga o erro quando o email ja estiver cadastrado");
+    test("repassa os dados ao repository e retorna o cliente criado", () => {
+      const dados = { nome: "Carlos", email: "carlos@email.com" };
+      const clienteCriado = { id: 10, ...dados };
+      mockRepository.create.mockReturnValue(clienteCriado);
+
+      const resultado = service.criar(dados);
+
+      expect(mockRepository.create).toHaveBeenCalledWith(dados);
+      expect(resultado).toEqual(clienteCriado);
+    });
+
+    test("propaga o erro quando nome ou email estiverem faltando", () => {
+      mockRepository.create.mockImplementation(() => {
+        throw new Error("Nome e email sao obrigatorios");
+      });
+
+      expect(() => service.criar({ nome: "Carlos" })).toThrow("Nome e email sao obrigatorios");
+    });
+
+    test("propaga o erro quando o email ja estiver cadastrado", () => {
+      mockRepository.create.mockImplementation(() => {
+        throw new Error("Email ja cadastrado");
+      });
+
+      expect(() => service.criar({ nome: "Carlos", email: "ana@email.com" })).toThrow("Email ja cadastrado");
+    });
   });
 
   describe("atualizar", () => {
-    test.todo("chama repository.findById e repository.update quando o cliente existe");
-    test.todo("lanca erro 'Cliente nao encontrado' sem chamar repository.update quando o cliente nao existe");
-    test.todo("propaga o erro quando o novo email ja pertence a outro cliente");
+    test("chama repository.findById e repository.update quando o cliente existe", () => {
+      const clienteAtual = { id: 1, nome: "Ana Souza", email: "ana@email.com" };
+      const dadosNovos = { nome: "Ana Souza Atualizada", email: "ana.nova@email.com" };
+      const clienteAtualizado = { ...clienteAtual, ...dadosNovos };
+      mockRepository.findById.mockReturnValue(clienteAtual);
+      mockRepository.update.mockReturnValue(clienteAtualizado);
+
+      const resultado = service.atualizar(1, dadosNovos);
+
+      expect(mockRepository.findById).toHaveBeenCalledWith(1);
+      expect(mockRepository.update).toHaveBeenCalledWith(1, dadosNovos);
+      expect(resultado).toEqual(clienteAtualizado);
+    });
+
+    test("lanca erro 'Cliente nao encontrado' sem chamar repository.update quando o cliente nao existe", () => {
+      mockRepository.findById.mockReturnValue(null);
+
+      expect(() => service.atualizar(99, { email: "novo@email.com" })).toThrow("Cliente nao encontrado");
+      expect(mockRepository.update).not.toHaveBeenCalled();
+    });
+
+    test("propaga o erro quando o novo email ja pertence a outro cliente", () => {
+      mockRepository.findById.mockReturnValue({ id: 1, nome: "Ana Souza", email: "ana@email.com" });
+      mockRepository.update.mockImplementation(() => {
+        throw new Error("Email ja cadastrado");
+      });
+
+      expect(() => service.atualizar(1, { email: "bruno@email.com" })).toThrow("Email ja cadastrado");
+    });
   });
 
   describe("remover", () => {
-    test.todo("chama repository.delete com o id correto quando o cliente existe");
-    test.todo("lanca erro 'Cliente nao encontrado' quando o repository retorna false");
+    test("chama repository.delete com o id correto quando o cliente existe", () => {
+      mockRepository.delete.mockReturnValue(true);
+
+      service.remover(1);
+
+      expect(mockRepository.delete).toHaveBeenCalledWith(1);
+    });
+
+    test("lanca erro 'Cliente nao encontrado' quando o repository retorna false", () => {
+      mockRepository.delete.mockReturnValue(false);
+
+      expect(() => service.remover(99)).toThrow("Cliente nao encontrado");
+    });
   });
 });

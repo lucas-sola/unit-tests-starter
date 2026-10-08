@@ -8,10 +8,9 @@ O codigo de producao ja esta implementado — voce nao precisa alterar nada em
 `api/controllers/ClienteController.js` ou `api/routes/clientes.routes.js`.
 Sua tarefa e escrever os testes.
 
-Diferente da atividade anterior, aqui nenhum teste foi feito em aula — os arquivos
-contem apenas 1 exemplo pronto (`listar` / `GET /clientes`) como referencia de estilo.
-Todo o resto esta marcado com `test.todo(...)`: substitua cada `test.todo` por um
-`test` completo.
+Diferente da atividade anterior, aqui nenhum teste foi feito em aula. Os testes
+em `api/__tests__/unit/ClienteService.test.js` e
+`api/__tests__/integration/clientes.integration.test.js` cobrem os casos abaixo.
 
 ---
 
@@ -108,5 +107,4 @@ Matchers sugeridos: `toBe`, `toHaveProperty`, `toContain`
 npm test
 ```
 
-Rode `npm test -- --verbose` para ver a lista de `test.todo` pendentes junto com os
-testes que passaram.
+Rode `npm test -- --verbose` para executar a suite e conferir os resultados.

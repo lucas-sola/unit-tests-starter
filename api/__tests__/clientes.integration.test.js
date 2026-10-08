@@ -4,9 +4,6 @@ const createApp = require('../app');
 // Teste de integracao: testa a API de ponta a ponta via HTTP real.
 // Cada teste recebe uma app nova (factory), garantindo estado isolado.
 //
-// Abaixo ha 1 teste pronto (GET /clientes) como referencia de estilo.
-// Os demais estao como test.todo — implemente cada um seguindo o ENUNCIADO-02-CLIENTES.md.
-
 describe('API /clientes (integracao com supertest)', () => {
   let app;
 

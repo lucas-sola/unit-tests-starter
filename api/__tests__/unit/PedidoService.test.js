@@ -4,9 +4,6 @@ const PedidoService = require("../../services/PedidoService");
 // O repository e substituido por um mock (jest.fn()), assim testamos so a
 // logica do service, sem depender de dados reais.
 //
-// Abaixo ha 1 teste pronto (listar) como referencia de estilo.
-// Os demais estao como test.todo — implemente cada um seguindo o ENUNCIADO-03-PEDIDOS.md.
-
 describe("PedidoService (unitario com mocks)", () => {
   let service;
   let mockRepository;

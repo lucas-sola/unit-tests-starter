@@ -1,3 +1,4 @@
 node_modules/
 web/dist/
+test-results/
 .DS_Store

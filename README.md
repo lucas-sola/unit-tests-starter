@@ -47,6 +47,25 @@ Esse comando sobe os dois ao mesmo tempo:
 
 O front chama sempre `/api/...` e o Vite repassa a requisicao para a API, tirando o `/api` do caminho. Exemplo: `/api/produtos` vira `http://localhost:3000/produtos`.
 
+### Rodando os testes E2E
+
+Instale o navegador do Playwright uma vez:
+
+```bash
+npx playwright install chromium
+```
+
+Execute os testes com:
+
+```bash
+npm run test:e2e
+```
+
+O Playwright inicia automaticamente a API em modo E2E e o front-end. Os testes
+em `e2e/` verificam cadastro e remocao de produtos, cadastro/edicao/remocao de
+clientes e criacao/atualizacao de status/remocao de pedidos. Antes de cada
+teste, a API volta aos dados iniciais pelo endpoint `POST /__reset`.
+
 ### Modo E2E e o `/__reset`
 
 Os dados da API ficam em memoria. Se um teste cadastra o cliente "Carla", ela continua la para o proximo teste, e os testes passam a depender uns dos outros.
